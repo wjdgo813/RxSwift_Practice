@@ -1,0 +1,6 @@
+framework module Pods_RxSwiftExample_pilgsUITests {
+  umbrella header "Pods-RxSwiftExample_pilgsUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
