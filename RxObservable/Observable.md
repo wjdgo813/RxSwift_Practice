@@ -6,8 +6,20 @@ Observable
 
 * onNext()
 
-  observable은 새로운 항목들을 배출할 때 마다 이 메서드를 호출한다. 이 메서드는 Observable이 배출하는 항목을 파라미터로 전달받는다.<br/>
+  observable은 새로운 항목들을 배출할 때 마다 이 메서드를 호출한다. 이 메서드는 Observable이 배출하는 항목을 파라미터로 전달받는다.
 
 * onError
 
-* 
+  Observalble은 데이터가 생성되지 않았거나 에러가 발생 했을 때, 오류를 알리기 위해 이 메서드를 호출한다.
+
+  이 메서드가 호출되면 onNext()나 onComplete()는 더 이상 호출되지 않는다.
+
+* onComplete 
+
+  오류가 끝까지 발생하지 않았다면 마지막 onNext()를 호출한 후 이 메서드를 호출한다.
+
+
+
+
+
+  https://pilgwon.github.io/blog/2018/04/29/RxSwift-Getting-Started.html#observables-aka-sequences
