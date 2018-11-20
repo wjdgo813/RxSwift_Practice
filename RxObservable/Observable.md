@@ -5,16 +5,17 @@ Observable
 > ReactiveX에서 옵저버는 Observable을 구독한다. Obseravable이 배출하는 하나 또는 연속된 항목에 옵저버는 반응한다. 이러한 패턴은 동시성 연산을 가능하게 한다. 그 이유는 Observable이 객체를 배출할 때까지 기다릴 필요 없이 어떤 객체가 배출되면 그 시점을 감시하는 관찰자를 옵저버 안에 두고 그 관찰자를 통해 배출 알림을 받으면 되기 때문이다.<br/>
 > Link: [ReactiveX](http://reactivex.io/documentation/ko/observable.html)
 
+
+
 * * *
 
---------------------------------------
+
 
 ### 기초
 
 *  Observable
 
   Rx에서는 "옵저버"에 의해 임의의 순서에 따라 병렬로 실행되고, 결과는 나중에 연산된다. 즉, 메서드 호출보다도 "Observable"안에 데이터를 조회하고 반환하는 매커니즘을 정의한 후, Observable이 이벤트를 발생시키면 옵저버의 관찰자가 그 순간을 감지하고 준비된 연산을 실행시켜 결과를 리턴하는 메카니즘으로 인해 Observable을 구독한다고 표현하는 것이 올바르다.
-
 
 -----------------
 
@@ -88,7 +89,7 @@ Thread가 다를 때 Observable을 사용하기도 전에 메모리를 비워주
 
 ~~~
 
-
+<br/>
 
 ### Dispose Bags
 
@@ -101,7 +102,7 @@ self.disposeBag = DisposeBag()
 
 위의 코드는 오래된 참조들을 정리해주고 자원들이 해제되도록 합니다.
 
-만약 예외적인 수동의 해제가 필요하다면, CompositeDisposable을 사용해보십시오. CompositeDisposable은 원하는 기능을 가지고 있을 것이지만 dispose가 호출 됐을 때 새롭게 추가된 disposable도 즉시 해제시켜 버립니다.
+만약 예외적인 수동의 해제가 필요하다면, CompositeDisposable을 사용해보십시오. CompositeDisposable은 원하는 기능을 가지고 있을 것이지만 dispose가 호출 됐을 때 새롭게 추가된 disposable도 즉시 해제시켜 버립니다.<br/>
 
 
 
@@ -138,7 +139,7 @@ let cancel = searchForMe //여기서 시퀀스 생성이 시작되고, URL 리�
 
 ~~~
 
-
+<br/>
 
 - create
 
@@ -146,16 +147,289 @@ let cancel = searchForMe //여기서 시퀀스 생성이 시작되고, URL 리�
 구독을 하면 하나의 요소를 반환하는 시퀀스를 만드는 함수인 just를 만들어봅시다.
 
 ~~~swift
+//하나의 요소를 반환하는 Observable
 func myJust<E>(_ element: E) -> Observable<E>{
-    return Observable.create
+    return Observable.create { observer in
+       observer.on(.next(element))
+	   observer.on(.completed)
+       return Disposables.create()
+    }
 }
+
+myJust(0).subscribe(onNext:{n in
+	print(n)    
+	})
+
+/*
+결과 : 0
+*/
+
 ~~~
 
 
 
+배열의 요소를 반환하는 from
 
+~~~swift
+//배열의 요소를 반환하는 Observable
+func myFrom<E>(_ sequence: [E]) -> Observable<E>{
+    return Observable.create { observer in
+                              for element in sequence{
+                                  observer.on(.next(element))
+                              }
+                 			  observer.on(.completed)
+                              return Disposables.create()
+    }
+}
 
+let stringCounter = myFrom(["first","second"])
 
+print("Started ----")
+
+//첫 시도
+stringCounter
+.subscribe(onNext:{ n in
+    print(n)
+})
+
+print("----")
+
+stringCounter
+.subscribe(onNext:{ n in
+                   print(n)
+})
+
+print("Ended ----")
+~~~
+
+<br/>
+
+- 작동하는 Observable 만들기
+
+  - interval 연산자 만들기
+
+  ~~~swift
+  func myInterval(_ interval: TimeInterval) -> Observable<Int>{
+      return Observable.create{ observer in
+      	print("Subscribed")
+         	let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+  		timer.scheduleRepeating(deadline: DispatchTime.now() + interval, interval: interval)
+  		
+  		let cancel = Disposables.create{
+          	print("Disposed")                         
+              timer.cancel()
+  		}
+                               
+  		var next = 0
+  		timer.setEventHandler{
+              if cancel.isDisposed{
+                  return
+              }
+              observer.on(.next(next))
+              next += 1
+  		}
+  		timer.resume()
+          return cancel
+      }
+  }
+  ~~~
+
+  ~~~swift
+  let counter = myInterval(0.1)
+  print("started!!")
+  
+  let subscribtion = counter
+  .subscribe(onNext:{ n in
+      print(n)
+  })
+  
+  Thread.sleep(forTimeInterval: 0.5)
+  subscription.dispose()
+  
+  /*
+  Started ----
+  Subscribed
+  0
+  1
+  2
+  3
+  4
+  Disposed
+  Ended ----
+  */
+  ~~~
+
+  - 개별 요소들의 시퀀스
+
+    ~~~swift
+    let counter = myInterval(0.1)
+    
+    print("Started ---")
+    
+    let subscription1 = count 
+    .subscribe(onNext:{ n in
+        print("First \(n)")
+    })
+    
+    let subscription2 = count
+    .subscribe(onNext:{ n in
+        print("Second \(n)")
+    })
+    
+    Thread.sleep(forTimeInterval:0.5)
+    subscription1.dispose()
+    Thread.sleep(forTimeInterval:0.5)
+    subscription2.dispose()
+    
+    print("Ended----")
+    /*
+    Started ----
+    Subscribed
+    Subscribed
+    First 0
+    Second 0
+    First 1
+    Second 1
+    First 2
+    Second 2
+    First 3
+    Second 3
+    First 4
+    Second 4
+    Disposed
+    Second 5
+    Second 6
+    Second 7
+    Second 8
+    Second 9
+    Disposed
+    Ended ----
+    */
+    ~~~
+
+    - 구독 공유와 sharedReplay 연산자
+
+    ~~~swift
+    let counter = myInterval(0.1)
+    	.shareReplay(1)
+    print("Started ---")
+    
+    let subscription1 = counter
+    .subscribe(onNext:{ n in
+        print("First \(n)")
+    })
+    let subscription2 = counter
+    .subscribe(onNext:{ n in
+    	print("Second \(n)")
+    })
+    
+    Thread.sleep(forTimeInterval:0.5)
+    subscription1.dispose()
+    Thread.sleep(forTimeInterval:0.5)
+    subscription2.dispose()
+    
+    print("Ended ----")
+    
+    /*
+    Started ----
+    Subscribed
+    First 0
+    Second 0
+    First 1
+    Second 1
+    First 2
+    Second 2
+    First 3
+    Second 3
+    First 4
+    Second 4
+    First 5
+    Second 5
+    Second 6
+    Second 7
+    Second 8
+    Second 9
+    Disposed
+    Ended ----
+    */
+    ~~~
+
+  - Sharing subscription and share operator
+
+    ~~~swift
+    let counter = myInterval(0.1)
+        .share(replay: 1)
+    
+    print("Started ----")
+    
+    let subscription1 = counter
+        .subscribe(onNext: { n in
+            print("First \(n)")
+        })
+    let subscription2 = counter
+        .subscribe(onNext: { n in
+            print("Second \(n)")
+        })
+    
+    Thread.sleep(forTimeInterval: 0.5)
+    subscription1.dispose()
+    Thread.sleep(forTimeInterval: 0.5)
+    subscription2.dispose()
+    
+    print("Ended ----")
+    
+    /*
+    Started ----
+    Subscribed
+    First 0
+    Second 0
+    First 1
+    Second 1
+    First 2
+    Second 2
+    First 3
+    Second 3
+    First 4
+    Second 4
+    First 5
+    Second 5
+    Second 6
+    Second 7
+    Second 8
+    Second 9
+    Disposed
+    Ended ----
+    */
+    ~~~
+
+  - HTTP Request Rx Example
+
+    ~~~swift
+    extension Reactive where Base: URLSession{
+        public func response(request:URLRequest) -> Observable<(response:HTTPURLResponse, data:Data)>{
+            return Observable.create{ observer in
+    			let task = self.dataTaskWithRequest(request) { (data,response,error) in
+    				guard let response = response, let data = data else {
+    					observer.on(.error(error ?? RxCocoaURLError.Unknwon))
+                        return
+                    }                     
+    			}
+                
+    				guard let httpResponse = response as? HTTPURLResponse else{
+    					observer.on(.error(RxCocoaURLError.nonHTTPResponse(response:response)))
+                        return
+    				}
+    				observer.on(.next(httpResponse, data))
+    				observer.on(.completed)
+            }
+            task.resume()
+            
+            return Disposables.create{
+                task.cancel()
+            }
+        }
+    }
+    ~~~
 
 
 
