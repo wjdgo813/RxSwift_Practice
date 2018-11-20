@@ -19,5 +19,25 @@ Subject
 
 complete 될때까지 이벤트는 발생되지 않으며 complete가 되면 마지막 이벤트를 발생하고 종료된다.
 
+![async_subject](./picture/AsyncSubject1.png)
 
+만약 에러로 종료되면 마지막 이벤트 전달 없이 에러가 발생된다.
+
+![async_subject](./picture/AsyncSubject2.png)
+
+~~~swift
+let asyncSubject = AsyncSubject<String>()
+asyncSubject.debug().subscribe{
+    print($0)
+}.disposed(by:disposeBag)
+
+asyncSubject.on(.next("1"))
+asyncSubject.on(.next("2"))
+asyncSubject.on(.next("3"))
+asyncSubject.on(.completed)
+~~~
+
+
+
+<br/>
 
