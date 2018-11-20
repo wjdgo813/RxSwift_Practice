@@ -19,6 +19,32 @@ Observable
 
 -----------------
 
+<br/>
+
+### Hot Observable and Cold Observable
+
+- Hot Observable
+
+  생성과 동시에 이벤트를 방출하기 시작한다. 또, 이후 subscribe 되는 시점과 상관없이 옵저버들에게 이벤트를 중간부터 전송한다.
+
+  Rx에서는 다른마로, connectable Observable이라고 한다.
+
+- Cold Observable
+
+  옵저버가 subscribe 되는 시점부터 이벤트를 생성하여 방출하기 시작한다.
+
+  기본적으로 Hot Observable로 생성하지 않은 것들을 Cold Observable 이라고 이해하면 된다.
+
+  ~~~
+  예시)
+  아프리카TV의 실시간 방송 : Hot Observable 
+  -> 시청자(observer)가 어느 시점에 방송을 시청하던, 상관없이 방송이 진행되고 시청자는 방송을 시청(subscribe)하는 시점부터 방송을 볼 수 있다.
+  
+  아프리카TV의 VOD : Cold Observable 
+  -> 어떤 시청자(observer)든 시청을 시작(subscribe)하면 처음부터 방송이 시작된다. (emit 1,2,3....)
+  ~~~
+
+
 
 
 ### 옵저버 생성  
