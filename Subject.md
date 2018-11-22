@@ -11,9 +11,9 @@ Subject
 
 -------------------------
 
-## 4가지 종류의 subject
-
 <br/>
+
+## 4가지 종류의 subject
 
 ### AsyncSubject
 
@@ -35,9 +35,20 @@ asyncSubject.on(.next("1"))
 asyncSubject.on(.next("2"))
 asyncSubject.on(.next("3"))
 asyncSubject.on(.completed)
+
+/*
+결과 
+//asyncSubject()->subscribed
+//asyncSubject()->Event next(3)
+next(3)
+//asyncSubject()->Event completed
+completed
+//asyncSubject()->isDisposed
+*/
 ~~~
-
-
 
 <br/>
 
+### PublishSubject
+
+PublishSubject는 subscribe 된 시점 이후부터 발생한 이벤트를 전달한다. subscribe 되기 이전의 이벤트는 전달하지 않는다.
