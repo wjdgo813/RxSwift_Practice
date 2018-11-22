@@ -52,3 +52,48 @@ completed
 ### PublishSubject
 
 PublishSubject는 subscribe 된 시점 이후부터 발생한 이벤트를 전달한다. subscribe 되기 이전의 이벤트는 전달하지 않는다.
+
+![async_subject](./picture/publishSubject.png)
+
+에러가 발생하면 마찬가지로 에러를 전달한다.
+
+![async_subject](./picture/publishSubjectError.png)
+
+~~~swift
+let publishSubject = PublishSubject<String>()
+publishSubject.debug().subscribe{
+    print("first subscribe:\($0)")
+}.disposed(by:disposeBag)
+
+publishSubject.on(.next("1"))
+publishSubject.on(.next("2"))
+publishSubject.debug().subscribe{
+    print("second subscribe:\($0)")
+}.disposed(by:disposeBag)
+publishSubject.on(.next("3"))
+publishSubject.on(.completed)
+
+/** 
+결과
+//publishSubject()->subsribed
+//publishSubject()->Event next(1)
+first subscribe: next(1)
+//publishSubject()->Event next(2)
+first subscribe: next(2)
+//publishSubject()->subscribed
+//publishSubject()->Event next(3)
+first subscribe: next(3)
+second subscribe: next(3)
+//publishSubject()->Event completed
+first subscribe: completed
+//publishSubject()->isDisposed
+//publishSubject()->Event completed
+second subscribe: completed
+//publishSubject()->isDisposed
+*/
+~~~
+
+<br/>
+
+### BehaviorSubject
+
