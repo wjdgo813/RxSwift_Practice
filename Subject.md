@@ -97,3 +97,81 @@ second subscribe: completed
 
 ### BehaviorSubject
 
+기본적으로는 publish와 유사하지만 초기 값을 가진 subject이다. subscribe가 발생하면 즉시 현재 저장된 값을 이벤트로 전달한다. 마지막 이벤트 값을 저장하고 싶을 때 사용한다.
+
+![async_subject](./picture/BehaviorSubject.png)
+
+에러 발생 시
+
+![async_subject](./picture/BehaviorSubjectError.png)
+
+~~~swift
+let behaviorSubject = BehaviorSubject<String>(value:"tom")
+behaviorSubject.debug("behavior subject log 1").subscribe{
+    print($0)
+}.disposed(by:disposeBag)
+behaviorSubject.on(.next("jack"))
+behaviorSubject.on(.next("wade"))
+behaviorSubject.debug("behavior subject log2 :").subscribe{
+    print($0)
+}.disposed(by:disposeBag)
+
+/*
+결과
+behavior subject log 1: -> subscribed
+behavior subject log 1: -> Event next(tom)
+next(tom)
+behavior subject log 1: -> Event next(jack)
+next(jack)
+behavior subject log 1: -> Event next(wade)
+next(wade)
+behavior subject log 2: -> subscribed
+behavior subject log 2: -> Event next(wade)
+next(wade)
+*/
+~~~
+
+첫번째 subscribe 직후 최초 생성 시 설정한 값인 tom이 이벤트로 전달됐다. 이후 jack wade가 전달되었으며, 이후 두번째 subscribe 되자, 마지막 값인 wade가 이벤트로 전달되었다.
+
+<br/>
+
+포인트는 마지막 이벤트의 값이 저장된다는 것이다.<br/>마지막 값이 중요하거나, 최초 subscribe시 이벤트가 바로 전달되어야 할 때 사용하면 좋다.
+
+<br/>
+
+### ReplaySubject
+
+n개의 이벤트를 저장하고 subscribe가 되는 시점과 상관없이 저장된 모든 이벤트를 전달한다. <br/>
+
+RxSwift에서는 아래와 같이 2개의 생성함수가 있다.
+
+~~~swift
+static func create(bufferSize:Int)->ReplaySubject<Element>
+static func createUnbounded()->ReplaySubject<Element>
+~~~
+
+createUnbounded는 subject의 생성 이후 발생하는 모든 이벤트를 저장한다.
+
+![async_subject](./picture/ReplaySubject.png)
+
+~~~swift
+let replaySubject = ReplaySubject<String>.create(bufferSize:2)
+replaySubject.on(.next("tom"))
+replaySubject.on(.next("jack"))
+replaySubject.on(.next("wade"))
+replaySubject.debug("replay subject log: ").subscribe{
+    print($0)
+}.disposed(by:disposeBag)
+/*
+replay subject log: -> subscribed
+replay subject log: -> Event next(jack)
+next(jack)
+replay subject log: -> Event next(wade)
+next(wade)
+*/
+~~~
+
+이벤트는 3번 발생했지만, create(bufferSize:2) 버퍼 사이즈가 2라서 마지막 2개의 이벤트만 전달되었다.
+let replaySubject = ReplaySubject<String>.createUnbounded()
+로 생성헀다면 모든 이벤트가 전달 되었을 것이다.
+
