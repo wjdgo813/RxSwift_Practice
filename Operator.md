@@ -329,6 +329,12 @@ Operator
 
   위의 코드는 0.5초동안 텍스트 인풋이 없으면 API호출이 되는 코드이다.
 
+  ![takeUntil](./picture/throttle.png)
+
+<br/>
+
+- Debounce
+
 
 
 
