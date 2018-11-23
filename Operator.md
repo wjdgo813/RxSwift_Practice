@@ -335,6 +335,22 @@ Operator
 
 - Debounce
 
+  지정한 시간 간격내에 하나의 이벤트만 발생했을 때 이벤트를 전달한다.
+
+  ![Debounce](./picture/Debounce.png)
+
+  ~~~swift
+  let timer = Observable<Int>.interval(3, scheduler:MainScheduler.instance)
+  timer.debounce(1,scheduler:MainScheduler.instance).debug()
+  .subscribe().disposed(by:disposeBag)
+  
+  /* 결과
+  (timer)->Event next(0)
+  (debounceTest())->Event next(0)
+  
+  */
+  ~~~
+
 
 
 
