@@ -175,3 +175,5 @@ next(wade)
 let replaySubject = ReplaySubject<String>.createUnbounded()
 로 생성헀다면 모든 이벤트가 전달 되었을 것이다.
 
+출처 : [링크](https://brunch.co.kr/@tilltue/4)
+
