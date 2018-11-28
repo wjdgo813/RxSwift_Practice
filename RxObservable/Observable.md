@@ -25,15 +25,16 @@ Observable
 
 - Hot Observable
 
-  생성과 동시에 이벤트를 방출하기 시작한다. 또, 이후 subscribe 되는 시점과 상관없이 옵저버들에게 이벤트를 중간부터 전송한다.
-
-  Rx에서는 다른마로, connectable Observable이라고 한다.
-
-- Cold Observable
-
   옵저버가 subscribe 되는 시점부터 이벤트를 생성하여 방출하기 시작한다.
 
   기본적으로 Hot Observable로 생성하지 않은 것들을 Cold Observable 이라고 이해하면 된다.
+  
+
+- Cold Observable
+
+  생성과 동시에 이벤트를 방출하기 시작한다. 또, 이후 subscribe 되는 시점과 상관없이 옵저버들에게 이벤트를 중간부터 전송한다.
+
+  Rx에서는 다른마로, connectable Observable이라고 한다.
 
   ~~~
   예시)
