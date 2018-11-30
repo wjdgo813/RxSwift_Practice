@@ -1,6 +1,6 @@
 Operator
 =======
-
+<br/>
 ## Filtering Operator
 
 - Ignoring Operators
