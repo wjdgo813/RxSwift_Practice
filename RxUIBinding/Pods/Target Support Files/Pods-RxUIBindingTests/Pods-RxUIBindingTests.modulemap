@@ -1,0 +1,6 @@
+framework module Pods_RxUIBindingTests {
+  umbrella header "Pods-RxUIBindingTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
