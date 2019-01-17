@@ -1,0 +1,6 @@
+framework module Pods_ObservableAndTheBind_UITests {
+  umbrella header "Pods-ObservableAndTheBind.UITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
