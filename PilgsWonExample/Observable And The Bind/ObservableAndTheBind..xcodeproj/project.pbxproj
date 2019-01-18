@@ -17,6 +17,7 @@
 		BA86456621F018AA00B84993 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA86456421F018AA00B84993 /* LaunchScreen.storyboard */; };
 		BA86457121F018AA00B84993 /* ObservableAndTheBind_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86457021F018AA00B84993 /* ObservableAndTheBind_Tests.swift */; };
 		BA86457C21F018AA00B84993 /* ObservableAndTheBind_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86457B21F018AA00B84993 /* ObservableAndTheBind_UITests.swift */; };
+		BACEB69221F1E8CD006AC008 /* CircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACEB69121F1E8CD006AC008 /* CircleViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		BA86457721F018AA00B84993 /* ObservableAndTheBind.UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObservableAndTheBind.UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA86457B21F018AA00B84993 /* ObservableAndTheBind_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableAndTheBind_UITests.swift; sourceTree = "<group>"; };
 		BA86457D21F018AA00B84993 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BACEB69121F1E8CD006AC008 /* CircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleViewModel.swift; sourceTree = "<group>"; };
 		C4C9C876113C05663A541222 /* Pods-ObservableAndTheBind.UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObservableAndTheBind.UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ObservableAndTheBind.UITests/Pods-ObservableAndTheBind.UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E931AF39CFF746DB852918AB /* Pods_ObservableAndTheBind_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObservableAndTheBind_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB6D89888F322CE36A050A1 /* Pods_ObservableAndTheBind_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObservableAndTheBind_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 			children = (
 				BA86455B21F018A900B84993 /* AppDelegate.swift */,
 				BA86455D21F018A900B84993 /* ViewController.swift */,
+				BACEB69121F1E8CD006AC008 /* CircleViewModel.swift */,
 				BA86455F21F018A900B84993 /* Main.storyboard */,
 				BA86456221F018AA00B84993 /* Assets.xcassets */,
 				BA86456421F018AA00B84993 /* LaunchScreen.storyboard */,
@@ -461,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BACEB69221F1E8CD006AC008 /* CircleViewModel.swift in Sources */,
 				BA86455E21F018A900B84993 /* ViewController.swift in Sources */,
 				BA86455C21F018A900B84993 /* AppDelegate.swift in Sources */,
 			);
@@ -640,7 +644,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ObservableAndTheBind./Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jhh.ObservableAndTheBind-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -655,7 +662,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ObservableAndTheBind./Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jhh.ObservableAndTheBind-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -671,7 +681,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ObservableAndTheBind.Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jhh.ObservableAndTheBind-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -688,7 +702,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ObservableAndTheBind.Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jhh.ObservableAndTheBind-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -704,7 +722,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ObservableAndTheBind.UITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jhh.ObservableAndTheBind-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -720,7 +742,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ObservableAndTheBind.UITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jhh.ObservableAndTheBind-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
