@@ -113,7 +113,26 @@ class ViewController: UIViewController {
               self.pwValidView.isHidden = s
             }).disposed(by: disposeBag)
         
+        /*
+        pwField.rx.text.orEmpty
+            .observeOn(MainScheduler.instance)
+            .map(checkPasswordValid)
+            .subscribe(onNext : { s in
+                self.pwValidView.isHidden = s
+            }).disposed(by: disposeBag)
+         
+         
+        */
         
+        pwField.rx.text.orEmpty
+            .asDriver()
+            .drive(onNext : {
+                
+            })
+            .map(checkPasswordValid)
+            .subscribe(onNext : { s in
+                self.pwValidView.isHidden = s
+            }).disposed(by: disposeBag)
         
         Observable.combineLatest(
             idField.rx.text.orEmpty.map(checkEmailValid),
