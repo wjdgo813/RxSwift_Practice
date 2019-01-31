@@ -18,6 +18,16 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    let disposeBag = DisposeBag()
+    var repositoryNetworkModel : RepositoryNetworkModel!
+    
+    var rx_searchBarText : Observable<String>{
+        return searchBar.rx.text.orEmpty
+            .filter{ $0.count > 0 }
+            .throttle(0.5,scheduler:MainScheduler.instance)
+            .distinctUntilChanged()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +35,21 @@ class ViewController: UIViewController {
     }
 
     private func setupBind(){
-        var rx_searchBarText : Observable<String>{
-            return searchBar.rx.text.orEmpty
-                .filter{ $0.count > 0 }
-                .throttle(0.5,scheduler:MainScheduler.instance)
-                .distinctUntilChanged()
-        }
         
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        repositoryNetworkModel = RepositoryNetworkModel(withNameObservable: rx_searchBarText)
+        
+        repositoryNetworkModel.rxRepositories.drive(tableView.rx.items(cellIdentifier: "Cell")) { _, repository, cell in
+            cell.textLabel?.text = repository.name ?? ""
+        }.disposed(by: disposeBag)
+        
+        repositoryNetworkModel.rxRepositories.drive(onNext: { repository in
+            if repository.count == 0 {
+                let alert = UIAlertController(title: "NO", message: "NO : (", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }).disposed(by: disposeBag)
         
     }
 
