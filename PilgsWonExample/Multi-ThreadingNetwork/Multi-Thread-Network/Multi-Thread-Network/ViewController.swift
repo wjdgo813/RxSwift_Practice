@@ -12,6 +12,8 @@ import RxSwift
 import RxCocoa
 import Alamofire
 
+//https://pilgwon.github.io/blog/2017/10/14/RxSwift-By-Examples-4-Multithreading.html
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
