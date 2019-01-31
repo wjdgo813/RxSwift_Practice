@@ -1,0 +1,6 @@
+framework module Pods_Multi_Thread_Network {
+  umbrella header "Pods-Multi-Thread-Network-umbrella.h"
+
+  export *
+  module * { export * }
+}

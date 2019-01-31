@@ -1,0 +1,6 @@
+framework module Pods_Multi_Thread_NetworkUITests {
+  umbrella header "Pods-Multi-Thread-NetworkUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
