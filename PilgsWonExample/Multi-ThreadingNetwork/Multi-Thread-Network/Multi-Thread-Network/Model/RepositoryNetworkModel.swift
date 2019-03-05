@@ -27,6 +27,7 @@ struct RepositoryNetworkModel {
     
     init(withNameObservable nameObservable : Observable<String>) {
         self.repositoryName = nameObservable
+        
     }
     
     private func fetchRepositories() -> Driver<[Repository]>{

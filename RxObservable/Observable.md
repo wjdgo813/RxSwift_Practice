@@ -28,7 +28,6 @@ Observable
   옵저버가 subscribe 되는 시점부터 이벤트를 생성하여 방출하기 시작한다.
 
   기본적으로 Hot Observable로 생성하지 않은 것들을 Cold Observable 이라고 이해하면 된다.
-  
 
 - Cold Observable
 
