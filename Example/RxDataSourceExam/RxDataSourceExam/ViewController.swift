@@ -82,6 +82,10 @@ class ViewController: UIViewController {
         )
         
         
+        self.collectionview.rx.setDelegate(self)
+            .disposed(by: disposed)
+        
+        
         Observable.just(sections)
             .bind(to: collectionview.rx.items(dataSource: dataSource))
             .disposed(by: self.disposed)
@@ -101,12 +105,25 @@ extension ViewController {
                    { (dataSource ,collectionView, kind, indexPath) in
                     let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "PackageCellSectionView", for: indexPath) as! PackageCellSectionView
                     section.value!.text = "\(dataSource[indexPath.section].header)"
+                    section.backgroundColor = .red
                     return section
                     }
             )
     }
     
 }
+
+
+extension ViewController : UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: 50)
+    }
+}
+
 
 
 class PackageCell : UICollectionViewCell {
